@@ -28,6 +28,10 @@ using DataFrames
 df = DataFrame(Y = Y, X = X)
 # model = fit(LinearModel, @formula(y~  x), data)
 model1 = lm(@formula( Y ~ X ), df)
+coef(model1) # acces to coefficients
+stderror(model1) # access to standard errors
+predict(model1) # geenrate model prediction 
+# it's nice all stored as vector 
 
 Coefficients:
 ────────────────────────────────────────────────────────────────────────
