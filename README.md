@@ -15,6 +15,7 @@ Random.seed!(1234)
 X = rand(N)
 eps = rand(N)
 
-Y = 1.0 + 3.0 .* X .+ eps
+Y = 1.0 .+ 3.0 .* X .+ eps
 
 ```
+Based on the DGP, true $\beta_{0} = 1$ and $\beta_{1} = 3$
