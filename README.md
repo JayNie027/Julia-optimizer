@@ -80,8 +80,8 @@ Think about GMM. Linear regression is a special case of GMM because we have two 
 $$E[\varepsilon] = 0$$
 $$E[X\varepsilon] = 0$$
 We can stack these two conditions and 
-$$ \text{Min} \,\,\,\,\,\,  W'W $$ 
-Notice, because two parameters and two moment conditions so paramters are excat identified. In a more general case, have more moment conditions than parameters then the weighting matrix is need.
+$$ \text{Min} \quad  W'W $$ 
+Notice, because two parameters and two moment conditions so paramters are excat identified. In a more general case, have more moment conditions than parameters then the weighting matrix is needed.
 
 ```Julia
 function moment(beta)
