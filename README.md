@@ -18,7 +18,7 @@ eps = randn(N)
 Y = 2.0 .+ 3.0 .* X .+ eps
 
 ```
-Based on the DGP, true $\beta_{0} = 1$ and $\beta_{1} = 3$. \
+Based on the DGP, true $\beta_{0} = 2,\beta_{1} = 3$.\
 First, I use the `GLM` package to estimate model
 
 ```Julia
