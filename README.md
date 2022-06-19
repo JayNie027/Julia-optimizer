@@ -41,3 +41,35 @@ Coefficients:
 X            3.0203    0.0289095  104.47    <1e-99    2.96357    3.07703
 ────────────────────────────────────────────────────────────────────────
 ```
+
+Instead of using linear model from `GLM`. We can use `Optim` optimizer. There are lots of options for using optimizer, here's link: https://julianlsolvers.github.io/Optim.jl/stable/. Obejctive function is 
+
+  $$\text{Min} \sum_{i}^{N}(Y_{i} - \hat{Y}_{i})^{2} $$
+  
+ ```Julia
+ using Optim
+
+function sqerror(betas)
+    err = 0.0
+    for i in 1:length(X)
+        pred_i = betas[1] + betas[2] * X[i]
+        err += (Y[i] - pred_i)^2
+    end
+    return err
+end
+res = optimize(sqerror, [0.0, 0.0])
+Optim.minimizer(res)
+```
+or 
+
+```Julia
+function sqerror(beta)
+    predict = beta[1] .+ beta[2] .* X
+    err = Y .- predict
+    sqrerr = sum(err.^2)
+
+    return sqrerr
+end
+res1 = optimize(sqerror, [0.0, 0.0])
+Optim.minimizer(res1)
+```
