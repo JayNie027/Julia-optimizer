@@ -16,8 +16,9 @@ X = randn(N)
 eps = randn(N)
 
 Y = 2.0 .+ 3.0 .* X .+ eps
-
 ```
+## linear regression
+
 Based on the DGP, true $\beta_{0} = 2,\beta_{1} = 3$.\
 First, I use the `GLM` package to estimate model
 
@@ -31,7 +32,7 @@ model1 = lm(@formula( Y ~ X ), df)
 coef(model1) # acces to coefficients
 stderror(model1) # access to standard errors
 predict(model1) # geenrate model prediction 
-# it's nice all stored as vector 
+# it's nice that all paramters stored as vectors 
 
 Coefficients:
 ────────────────────────────────────────────────────────────────────────
@@ -41,6 +42,8 @@ Coefficients:
 X            3.0203    0.0289095  104.47    <1e-99    2.96357    3.07703
 ────────────────────────────────────────────────────────────────────────
 ```
+
+## Optimizer, GMM
 
 Instead of using linear model from `GLM`. We can use `Optim` optimizer. There are lots of options for using optimizer, here's link: https://julianlsolvers.github.io/Optim.jl/stable/. Obejctive function is 
 
@@ -72,4 +75,24 @@ function sqerror(beta)
 end
 res1 = optimize(sqerror, [0.0, 0.0])
 Optim.minimizer(res1)
+```
+Think about GMM. Linear regression is a special case of GMM because we have two parameters $\beta_{0}, \beta_{1}$, and two moment conditions ,
+$$E[\varepsilon] = 0$$
+$$E[X\varepsilon] = 0$$
+We can stack these two conditions and 
+$$ \text{Min} \,\,\,\,\,\,  W'W $$ 
+Notice, because two parameters and two moment conditions so paramters are excat identified. In a more general case, have more moment conditions than parameters then the weighting matrix is need.
+
+```Julia
+function moment(beta)
+    predict = beta[1] .+ beta[2] .* X
+    err = Y .- predict
+    mome1 = sum(err)/N  # first moment condition
+    mome2 = sum(X.*err)/N # second moment condition
+    moment = [mome1, mome2]
+    object =  moment' * moment
+    return object
+end
+res = optimize(moment, [ 0.0, 0.0])
+Optim.minimizer(res)
 ```
